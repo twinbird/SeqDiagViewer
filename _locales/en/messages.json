@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Seq Diag Viewer",
+    "description" : "Converts and previews '.diag' files to SVG image Sequence Image inside Chrome."
+  },
+  "appDesc": {
+    "message": "Converts and previews '.diag' files to SVG image Sequence Image inside Chrome.",
+    "description": "Converts and previews '.diag' files to SVG image Sequence Image inside Chrome."
+  }
+}

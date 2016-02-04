@@ -1,0 +1,99 @@
+$(function() {
+  chrome.storage.sync.get("disable_render", function(items) {
+    if (!chrome.runtime.error) {
+      var disable_render = items.disable_render;
+      if (disable_render === undefined) {
+        disable_render = false;
+        chrome.storage.sync.set({"disable_render" : false}, function() {
+          console.log("disable_render initialize failed.");
+        });
+      }
+      $('#disable_render').prop('checked', disable_render);
+    }
+  });
+
+  chrome.storage.sync.get("reload_enable", function(items) {
+    if (!chrome.runtime.error) {
+      var reload_enable = items.reload_enable;
+      if (reload_enable === undefined) {
+        reload_enable = true;
+        chrome.storage.sync.set({"reload_enable" : true}, function() {
+          console.log("reload_enable initialize failed.");
+        });
+      }
+      $('#reload_enable').prop('checked', reload_enable);
+    }
+  });
+
+  chrome.storage.sync.get("reload_interval", function(items) {
+    if (!chrome.runtime.error) {
+      var reload_interval = items.reload_interval;
+      if (reload_interval === undefined) {
+        reload_interval = 1000;
+        chrome.storage.sync.set({"reload_interval" : 1000}, function() {
+          console.log("reload_interval initialize failed.");
+        });
+      }
+      $('#reload_interval').val(reload_interval);
+    }
+  });
+
+  $('#disable_render').change(function() {
+    chrome.storage.sync.set({"disable_render" : $('#disable_render').prop('checked')}, function() {
+      if (chrome.runtime.error) {
+        console.log("Storage save runtime error.(disable_render)");
+      }
+    });
+  });
+
+  $('#reload_enable').change(function() {
+    chrome.storage.sync.set({"reload_enable" : $('#reload_enable').prop('checked')}, function() {
+      if (chrome.runtime.error) {
+        console.log("Storage save runtime error.(reload_enable)");
+      }
+    });
+  });
+  
+  $('#reload_interval').change(function() {
+    chrome.storage.sync.set({"reload_interval" : $('#reload_interval').val()}, function() {
+      if (chrome.runtime.error) {
+        console.log("Storage save runtime error.(reload_interval)");
+      }
+    });
+  });
+
+  var download_dot_graph = function(diag_code) {
+    diag_code = diag_code.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'');
+    diag_code = diag_code.replace(/\r/g, "");
+
+    var ast = SeqdiagParser.parse(diag_code);
+    var diagram = Seqdiag.DiagramBuilder.build(ast);
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", "1024");
+    svg.setAttribute("height", "600");
+    var drawer = new Seqdiag.Drawer.SVG(diagram, svg, document);
+    drawer.draw();
+
+    var serializer = new XMLSerializer();
+    var serialized_svg = serializer.serializeToString(svg);
+
+    var dl_blob = new Blob([serialized_svg], {"type" : "image/svg+xml"});
+    var dl_url = URL.createObjectURL(dl_blob);
+    chrome.downloads.download({
+      url: dl_url,
+      filename: 'export.svg'
+    });
+  };
+
+  $('#download_svg').click(function() {
+    chrome.tabs.getSelected(null, function(tab) {
+      $.ajax({
+        url: tab.url,
+        cache: false,
+        success: function(txt) {
+          download_dot_graph(txt);
+        }
+      });
+    });
+  });
+});

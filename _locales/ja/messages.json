@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Seq Diag Viewer",
+    "description" : "diagファイルをドラッグ&ドロップするとChrome内でシーケンス図(SVG)に変換して表示します。SVG形式でのエクスポートも可能です。"
+  },
+  "appDesc": {
+    "message": "diagファイルをドラッグ&ドロップするとChrome内でシーケンス図(SVG)に変換して表示します。SVG形式でのエクスポートも可能です。",
+    "description": "diagファイルをドラッグ&ドロップするとChrome内でシーケンス図(SVG)に変換して表示します。SVG形式でのエクスポートも可能です。※注意：chromeの設定->その他のツール->拡張機能->Seq Diag Viewerの中から「ファイルのURLへのアクセスを許可する」を有効にしてください。"
+  }
+}
