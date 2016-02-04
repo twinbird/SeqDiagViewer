@@ -8,7 +8,7 @@ Please enable "Allow access to file URLs" in chrome://extensions/.
 
 * Seq Diag file  
 Drag on Drop diag text file.  
-![drag_on_drop.png](usage/drag_on_drop.png)
+![drag_on_drop.png](./drag_on_drop.png)
 
 * Print diag file  
 Please use the chrome features.
