@@ -20,13 +20,9 @@
       var drawer = new Seqdiag.Drawer.SVG(diagram, svg, document);
       drawer.draw();
     } catch (e) {
-      console.log(e);
-      /*
-      if (e.match(/syntax error/)) {
-        $(document.body).empty();
-        $(document.body).append(e);
-      }
-      */
+      $(document.body).empty();
+      $(document.body).append("Line " + e.offset + ":" + e.message);
+
       return;
     }
     var img_area = $('<center></center>').append(svg);
